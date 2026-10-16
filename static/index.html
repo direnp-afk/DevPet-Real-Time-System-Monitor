@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>DevPet — your code has a heartbeat</title>
+  <meta name="description" content="A virtual pet powered by real system monitoring and live tail-style CLI streaming." />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="/main.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#top" aria-label="DevPet home"><span class="brand-mark">◕</span><span>dev<span class="accent">pet</span><small>your coding companion</small></span></a>
+    <div class="sidebar-caption">WORKSPACE</div>
+    <nav aria-label="Primary navigation">
+      <a class="nav-link selected" href="#top"><span>◫</span> Dashboard</a>
+      <a class="nav-link" href="#activity"><span>◷</span> Activity feed</a>
+      <a class="nav-link" href="#playground"><span>✧</span> Demo playground</a>
+      <a class="nav-link" href="#how-it-works"><span>⌘</span> How it works</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="mini-pet"><span class="mini-emoji">♥</span><div><strong>Byte is here!</strong><small>Your dev buddy is watching.</small></div></div>
+      <div class="side-foot"><span class="online-dot"></span> Running locally <span class="version">v1.0</span></div>
+    </div>
+  </aside>
+  <main class="content" id="top">
+    <header class="topbar"><div class="breadcrumbs">Workspace <span>/</span> Overview</div><div class="top-right"><span class="live-pill"><span class="online-dot"></span> LIVE MONITORING</span><span class="avatar">D</span></div></header>
+    <div class="heading"><div><div class="eyebrow">WELCOME TO YOUR DESKTOP HABITAT ✨</div><h1>Your code has a <em>heartbeat.</em></h1><p>Meet Byte. A little friend whose world changes with your system's health.</p></div><div class="date-tag" id="local-date">LOCAL DASHBOARD</div></div>
+
+    <div class="main-grid">
+      <section class="card pet-card" aria-label="Your virtual pet">
+        <div class="card-top"><div><span class="small-label">YOUR COMPANION</span><h2>Meet Byte <span class="tiny-sparkle">✦</span></h2></div><span class="level-tag" id="pet-level">LVL 1</span></div>
+        <div class="pet-stage mood-happy" id="pet-stage">
+          <div class="pet-stars"><span>✳</span><span>✧</span><span>✦</span><span>✴</span></div>
+          <div class="pet-body">
+            <svg viewBox="0 0 280 242" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated virtual pet Byte">
+              <defs><linearGradient id="pet-gradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a6ffe3"/><stop offset="100%" stop-color="#63d9bc"/></linearGradient><radialGradient id="belly-glow"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
+              <ellipse cx="140" cy="223" rx="91" ry="11" fill="#172b3c" opacity=".19"/>
+              <g class="pet-float">
+                <path d="M78 103 Q60 61 76 27 Q102 39 117 71 Q141 62 164 72 Q186 36 211 27 Q224 61 202 103Z" fill="url(#pet-gradient)" stroke="#248e82" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M84 58 Q92 55 104 82 L85 90Z M199 58 Q188 55 177 82 L196 90Z" fill="#ffd1dc" opacity=".85"/>
+                <ellipse cx="140" cy="145" rx="85" ry="76" fill="url(#pet-gradient)" stroke="#248e82" stroke-width="5"/>
+                <ellipse cx="140" cy="158" rx="57" ry="47" fill="url(#belly-glow)"/>
+                <ellipse cx="88" cy="161" rx="18" ry="10" fill="#ff9dad" opacity=".65"/>
+                <ellipse cx="193" cy="161" rx="18" ry="10" fill="#ff9dad" opacity=".65"/>
+                <g class="eyes-normal"><ellipse cx="110" cy="135" rx="7" ry="11" fill="#244d57"/><ellipse cx="170" cy="135" rx="7" ry="11" fill="#244d57"/><ellipse cx="112" cy="131" rx="2.1" ry="3" fill="white"/><ellipse cx="172" cy="131" rx="2.1" ry="3" fill="white"/></g>
+                <g class="eyes-sick"><path d="M101 128 l17 17 m0-17 l-17 17 M162 128 l17 17 m0-17 l-17 17" stroke="#244d57" stroke-width="5" stroke-linecap="round"/></g>
+                <g class="eyes-tired"><path d="M99 138 Q110 127 120 138 M161 138 Q171 127 182 138" fill="none" stroke="#244d57" stroke-width="5" stroke-linecap="round"/></g>
+                <g class="mouth-happy"><path d="M124 163 Q140 183 156 163" stroke="#244d57" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+                <g class="mouth-sad"><path d="M124 173 Q140 158 156 173" stroke="#244d57" stroke-width="5" stroke-linecap="round" fill="none"/></g>
+                <g class="mouth-excited"><ellipse cx="140" cy="170" rx="10" ry="12" fill="#244d57"/><ellipse cx="140" cy="176" rx="5" ry="4" fill="#ff9ba9"/></g>
+                <path d="M70 180 Q49 193 60 204 M208 180 Q229 193 218 204" stroke="#248e82" stroke-width="9" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </div>
+          <span class="spark star-1">✦</span><span class="spark star-2">✳</span>
+        </div>
+        <div class="pet-status"><div class="mood-label" id="pet-mood">😊 HAPPY & HEALTHY</div><p id="pet-message">All systems looking good! Keep it up, human.</p></div>
+        <div class="stats">
+          <div class="stat-row"><div class="stat-info"><span>♥ <strong>Health</strong></span><span id="health-value">85%</span></div><div class="meter"><div class="meter-fill health-fill" id="health-bar" style="width:85%"></div></div></div>
+          <div class="stat-row"><div class="stat-info"><span>⚡ <strong>Energy</strong></span><span id="energy-value">80%</span></div><div class="meter"><div class="meter-fill energy-fill" id="energy-bar" style="width:80%"></div></div></div>
+          <div class="stat-row"><div class="stat-info"><span>☁ <strong>Stress</strong></span><span id="stress-value">15%</span></div><div class="meter"><div class="meter-fill stress-fill" id="stress-bar" style="width:15%"></div></div></div>
+        </div>
+        <div class="xp-wrap"><div><strong>✨ Experience</strong><span id="xp-label">0 / 100 XP</span></div><div class="meter xp-meter"><div class="meter-fill xp-fill" id="xp-bar" style="width:0%"></div></div><small>Earn XP from passing tests, builds, and commits.</small></div>
+      </section>
+
+      <div class="right-stack">
+        <section class="resources" aria-label="Live computer metrics">
+          <div class="card resource-card"><div class="resource-top"><div class="round-icon cpu-icon">▤</div><span class="resource-live">REAL TIME</span></div><span class="small-label">CPU USAGE</span><div class="resource-number"><strong id="cpu-value">--</strong><span>%</span></div><div class="resource-bottom"><span id="cpu-status">Sampling…</span><svg class="sparkline" viewBox="0 0 145 45" preserveAspectRatio="none"><polyline id="cpu-line" points="0,40 145,40" stroke="#e7b471"/></svg></div></div>
+          <div class="card resource-card"><div class="resource-top"><div class="round-icon ram-icon">▦</div><span class="resource-live">REAL TIME</span></div><span class="small-label">MEMORY USAGE</span><div class="resource-number"><strong id="ram-value">--</strong><span>%</span></div><div class="resource-bottom"><span id="ram-status">Sampling…</span><svg class="sparkline" viewBox="0 0 145 45" preserveAspectRatio="none"><polyline id="ram-line" points="0,40 145,40" stroke="#a49bfa"/></svg></div></div>
+        </section>
+
+        <section class="card feed-card" id="activity"><div class="section-heading"><div><span class="small-label">WHAT'S HAPPENING</span><h2>Activity feed</h2></div><div class="count-pill"><span class="online-dot"></span> <span id="event-count">0</span> events</div></div><div class="feed-items" id="feed-items"><div class="empty-feed">Waiting for your first event... Try a demo action below.</div></div><div class="feed-footer"><span><span class="online-dot"></span> Following the event stream</span><span id="alerts-count">0 alerts</span></div></section>
+        <section class="card tail-card"><div class="terminal-top"><div><span class="terminal-light red"></span><span class="terminal-light yellow"></span><span class="terminal-light green"></span></div><span>TAIL TERMINAL · LIVE</span><span id="tail-indicator">●</span></div><div class="terminal-body"><div class="prompt"><span>$</span> <span id="tail-command">tail -n +1 -F logs/events.log</span></div><div class="terminal-output" id="terminal-output">Waiting for events<span class="cursor">▋</span></div></div></section>
+      </div>
+    </div>
+
+    <section class="card playground" id="playground"><div class="section-heading"><div><span class="small-label">INTERACTIVE PLAYGROUND</span><h2>Make Byte react <span class="tiny-sparkle">✺</span></h2><p>Generate safe, simulated events to see what happens. No stress tests or deliberate crashes run on your computer.</p></div><span class="demo-badge">DEMO MODE</span></div><div class="actions-grid"><button class="action-btn" data-demo="CPU_HIGH"><span class="action-icon hot">♨</span><span><strong>CPU spike</strong><small>Make Byte stressed</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="RAM_HIGH"><span class="action-icon purple">▦</span><span><strong>Memory spike</strong><small>Make Byte tired</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="APP_CRASH"><span class="action-icon red">✕</span><span><strong>App crash</strong><small>Make Byte sick</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="TEST_FAILED"><span class="action-icon amber">!</span><span><strong>Fail tests</strong><small>Make Byte sad</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="TEST_PASSED"><span class="action-icon green">✓</span><span><strong>Pass tests</strong><small>Earn 25 XP</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="BUILD_SUCCESS"><span class="action-icon blue">⚡</span><span><strong>Successful build</strong><small>Earn 30 XP</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="GIT_COMMIT"><span class="action-icon purple">⑂</span><span><strong>Git commit</strong><small>Earn 15 XP</small></span><span class="action-arrow">↗</span></button><button class="action-btn" data-demo="SYSTEM_RECOVERED"><span class="action-icon green">♥</span><span><strong>System recovery</strong><small>Restore Byte</small></span><span class="action-arrow">↗</span></button></div><div class="toast" id="toast" role="status" aria-live="polite"></div></section>
+
+    <section class="how-card" id="how-it-works"><div><span class="small-label">BEHIND THE SCENES</span><h2>How the magic works</h2><p>This isn't just an animation. GNU <code>tail</code> (or Windows PowerShell's native <code>Get-Content -Tail -Wait</code>) follows a real log file, and each new event changes Byte's state.</p></div><div class="pipeline"><div>💻 <strong>System / tests</strong></div><span>→</span><div>📝 <strong>events.log</strong></div><span>→</span><div class="pipeline-active">⌘ <strong>Live CLI tail stream</strong></div><span>→</span><div>🐣 <strong>Byte reacts</strong></div></div></section>
+    <footer>Made with ♥ for builders · DevPet runs on your computer · <span id="connection-status">Connecting...</span></footer>
+  </main>
+</div>
+</body>
+</html>
