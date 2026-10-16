@@ -4,6 +4,27 @@ A real, runnable virtual pet whose health follows your computer and development 
 
 ![Description](https://img.shields.io/badge/stack-Python%20%2B%20tail%20CLI-9aebc6)
 
+## Hackathon Project Overview
+
+**DevPet | Tracker and Tail-er Hackathon | October 2026**
+
+DevPet is a gamified real-time system-monitoring MVP developed during a hackathon. The project transforms system performance and developer activity into an interactive virtual pet experience, combining Python automation, CLI-based log streaming, and event-driven programming.
+
+### Key Technical Achievements
+
+- **Real-time monitoring:** Implemented CPU and RAM tracking at 2-second sampling intervals using Python and `psutil`.
+- **Live dashboard:** Developed an interactive browser interface with 1-second refresh intervals to visualise system activity and virtual pet behaviour.
+- **CLI integration:** Integrated GNU `tail` and Windows PowerShell log-following capabilities to stream application events.
+- **Gamification:** Designed an event-driven system with pet health, mood, stress, XP, and persistent progression.
+- **Software testing:** Achieved 16 passing automated tests in the development environment, covering event processing, game logic, and application functionality.
+
+### Skills Demonstrated
+
+Python development, system monitoring, event-driven programming, frontend development, CLI integration, debugging, and automated testing.
+<img width="1902" height="927" alt="image" src="https://github.com/user-attachments/assets/f9104ac0-03d0-48f2-a3ac-014e5c0bdccd" />
+<img width="1433" height="461" alt="image" src="https://github.com/user-attachments/assets/678fe380-485e-4d22-a5e3-cce077d51579" />
+
+
 ## Features
 
 - **Real CPU and RAM tracking** via `psutil`, sampled every 2 seconds.
