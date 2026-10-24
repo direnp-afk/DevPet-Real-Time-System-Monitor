@@ -4,6 +4,45 @@ DevPet is a system monitor with a virtual pet called Byte. It tracks what is hap
 
 I made it for the **Tracker & Tail-er hackathon**. I wanted to build something that used the `tail` command for a real purpose, rather than just displaying a log file in a terminal.
 
+## DevPet Overview
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/972719ec-8e91-42b2-a537-81e004baf6e7" width="800" alt="DevPet dashboard during normal system activity">
+</p>
+
+<p align="center">
+  <strong>Figure 1: System Monitoring Under Normal Conditions</strong><br>
+  <sub>DevPet displaying live system performance metrics and the virtual pet's status during normal computer activity.</sub>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/fff6c89f-0f33-47ae-9cf3-5d8391b4ca62" width="800" alt="DevPet watchlist, recent activity and demo events">
+</p>
+
+<p align="center">
+  <strong>Figure 2: Watchlist, Recent Activity and Demo Events</strong><br>
+  <sub>The watchlist and activity feed provide visibility into monitored resources and recorded events, alongside controls for testing simulated scenarios.</sub>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3162d9f9-8d18-4526-a07a-2f76ed432de1" width="800" alt="DevPet dashboard under increased system load">
+</p>
+
+<p align="center">
+  <strong>Figure 3: System Monitoring Under Load</strong><br>
+  <sub>DevPet displaying changes in system resource usage under increased load, demonstrating how live monitoring affects the dashboard and virtual pet.</sub>
+</p>
+
+
+
+
+
+
 ## Features
 
 - **System monitoring:** CPU, memory, disk usage and network upload/download rates, sampled every 2 seconds. The dashboard shows the last 60 CPU and memory readings.
