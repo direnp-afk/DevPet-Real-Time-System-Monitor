@@ -4,8 +4,30 @@ DevPet is a system monitor with a virtual pet called Byte. It tracks what is hap
 
 I made it for the **Tracker & Tail-er hackathon**. I wanted to build something that used the `tail` command for a real purpose, rather than just displaying a log file in a terminal.
 
-## DevPet Overview
+## Tech Stack
 
+- **Backend:** Python 3.10+, `psutil`, Python's built-in HTTP server
+- **Frontend:** HTML, CSS, vanilla JavaScript
+- **System monitoring:** `psutil` for CPU, memory, disk, network and process information
+- **Log processing:** JSONL, GNU `tail` / Windows PowerShell
+- **Testing:** Python `unittest`
+- **Data storage:** Local JSON files for pet progress and saved settings
+
+I used a lightweight stack to keep the project manageable during the hackathon. Most of the monitoring and event processing is handled in Python, while JavaScript updates the dashboard with the latest information from the backend.
+
+## Features
+
+- **System monitoring:** CPU, memory, disk usage and network upload/download rates, sampled every 2 seconds. The dashboard shows the last 60 CPU and memory readings.
+- **Process tracking:** Watch an application by name or PID and see when it starts or stops, plus its approximate memory usage.
+- **Folder tracking:** Detect added, modified and deleted files in a selected folder.
+- **Log monitoring:** Follow a text log file and pick up new warning and error messages.
+- **Alerts:** Keep track of issues, acknowledge them, and see when CPU, memory or a watched process returns to normal.
+- **Virtual pet:** Byte reacts to events and earns XP from successful tests/builds, file activity and recoveries. Progress is saved locally.
+
+There are also a few optional demo buttons to show how Byte reacts. These are labelled as simulations and don't give XP.
+
+
+## DevPet Overview
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/972719ec-8e91-42b2-a537-81e004baf6e7" width="800" alt="DevPet dashboard during normal system activity">
@@ -38,21 +60,6 @@ I made it for the **Tracker & Tail-er hackathon**. I wanted to build something t
   <sub>DevPet displaying changes in system resource usage under increased load, demonstrating how live monitoring affects the dashboard and virtual pet.</sub>
 </p>
 
-
-
-
-
-
-## Features
-
-- **System monitoring:** CPU, memory, disk usage and network upload/download rates, sampled every 2 seconds. The dashboard shows the last 60 CPU and memory readings.
-- **Process tracking:** Watch an application by name or PID and see when it starts or stops, plus its approximate memory usage.
-- **Folder tracking:** Detect added, modified and deleted files in a selected folder.
-- **Log monitoring:** Follow a text log file and pick up new warning and error messages.
-- **Alerts:** Keep track of issues, acknowledge them, and see when CPU, memory or a watched process returns to normal.
-- **Virtual pet:** Byte reacts to events and earns XP from successful tests/builds, file activity and recoveries. Progress is saved locally.
-
-There are also a few optional demo buttons to show how Byte reacts. These are labelled as simulations and don't give XP.
 
 ## How it works
 
