@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DevPet — System Monitor</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/main.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap top-inner">
+      <div class="logo"><span class="logo-icon">:)</span> <strong>devpet</strong><span class="logo-caption">/ system monitor</span></div>
+      <div class="connection"><span id="connection-dot" class="dot"></span><span id="connection-text">Connecting...</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="intro">
+      <div><p class="kicker">TRACKER & TAIL-ER / HACKATHON BUILD</p><h1>Your system has a mood.</h1><p>DevPet turns real computer activity into a small game. Keep your system healthy, keep Byte happy.</p></div>
+      <div id="last-updated" class="updated">Waiting for readings</div>
+    </div>
+
+    <div class="dashboard">
+      <section class="panel pet-panel">
+        <div class="panel-heading"><h2>Meet Byte</h2><span id="pet-level" class="pill">Level 1</span></div>
+        <div class="pet-scene" id="pet-scene" data-mood="happy">
+          <div class="pet-ears"><span></span><span></span></div>
+          <div class="pet-face">
+            <div class="pet-eyes"><span></span><span></span></div>
+            <div class="pet-mouth"></div>
+          </div>
+          <div class="pet-shadow"></div>
+        </div>
+        <div class="pet-description"><strong id="pet-mood">Happy</strong><p id="pet-description">Byte is doing fine. Keep an eye on your system.</p></div>
+        <div class="meter-row"><div><span>Health</span><strong id="health-number">85%</strong></div><div class="bar"><div class="bar-fill health" id="health-bar"></div></div></div>
+        <div class="meter-row"><div><span>Stress</span><strong id="stress-number">15%</strong></div><div class="bar"><div class="bar-fill stress" id="stress-bar"></div></div></div>
+        <div class="meter-row"><div><span>XP</span><strong id="xp-number">0 / 100</strong></div><div class="bar"><div class="bar-fill xp" id="xp-bar"></div></div></div>
+        <p class="hint" id="pet-reason">System is running normally.</p>
+        <p class="hint">Earn XP from file activity, recoveries, and successful builds or tests.</p>
+      </section>
+
+      <div class="main-column">
+        <section class="panel">
+          <div class="panel-heading"><h2>System health</h2><span class="muted small">Updates every 2 seconds</span></div>
+          <div class="metrics">
+            <div class="metric"><span>CPU</span><strong id="cpu">--%</strong><div class="bar"><div class="bar-fill cpu" id="cpu-bar"></div></div></div>
+            <div class="metric"><span>Memory</span><strong id="memory">--%</strong><div class="bar"><div class="bar-fill memory" id="memory-bar"></div></div></div>
+            <div class="metric"><span>Disk</span><strong id="disk">--%</strong><div class="bar"><div class="bar-fill disk" id="disk-bar"></div></div></div>
+          </div>
+          <div class="trend-row">
+            <div><div class="trend-label"><span>CPU history</span><small>Last 2 min</small></div><svg id="cpu-trend" viewBox="0 0 260 54" preserveAspectRatio="none" aria-label="Recent CPU usage"></svg></div>
+            <div><div class="trend-label"><span>Memory history</span><small>Last 2 min</small></div><svg id="memory-trend" viewBox="0 0 260 54" preserveAspectRatio="none" aria-label="Recent memory usage"></svg></div>
+          </div>
+          <div class="network-row"><span>Network</span><span>Download <strong id="download">--</strong></span><span>Upload <strong id="upload">--</strong></span></div>
+          <p class="hint">Readings every 2 seconds. High CPU or memory usage affects Byte automatically.</p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading"><h2>Alerts</h2><span id="alert-count" class="muted small">0 need attention</span></div>
+          <div id="alerts" class="alerts"><div class="empty">No alerts yet.</div></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading"><h2>Things I'm watching</h2><span class="muted small" id="watch-count">0 added</span></div>
+          <p class="small muted">Follow a process, folder or application log file. New events appear below and affect Byte.</p>
+          <form id="watch-form" class="watch-form">
+            <select id="watch-kind" aria-label="Watch type"><option value="process">Application</option><option value="folder">Folder</option><option value="log">Log file</option></select>
+            <input id="watch-target" type="text" placeholder="notepad.exe or process ID" aria-label="Watch target" required autocomplete="off">
+            <button type="submit" class="primary">Add watch</button>
+          </form>
+          <p id="watch-message" class="form-message" role="status"></p>
+          <div id="watch-list" class="watch-list"><div class="empty">No watches yet. Add a process or folder above.</div></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading"><h2>Recent activity</h2><div class="feed-tools"><span id="event-count" class="muted small">0 events</span><select id="event-filter" aria-label="Filter events"><option value="all">All</option><option value="alerts">Alerts</option><option value="logs">Logs</option></select></div></div>
+          <div id="events" class="events"><div class="empty">Waiting for activity...</div></div>
+          <div class="feed-foot"><span id="tail-method">Starting log follower...</span><span id="tail-status">Checking</span></div>
+        </section>
+      </div>
+    </div>
+
+    <details class="demo-panel">
+      <summary>Try a demo event <span>For showing pet reactions without crashing anything</span></summary>
+      <div class="demo-content"><p>These are simulated log entries. They change Byte's mood but don't award XP.</p><div class="demo-buttons"><button data-demo="CPU_HIGH">CPU spike</button><button data-demo="APP_STOPPED">App stopped</button><button data-demo="TEST_FAILED">Tests failed</button><button data-demo="TEST_PASSED">Tests passed</button></div></div>
+    </details>
+    <footer>DevPet · Hackathon build · Python, psutil, JSONL and tail · Runs locally</footer>
+  </main>
+</body>
+</html>
