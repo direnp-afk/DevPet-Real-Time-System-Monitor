@@ -1,55 +1,63 @@
 # DevPet
 
-**Your system has a mood.** DevPet is a Windows-friendly system monitor with a virtual pet called Byte. It started as a small project for the **Tracker & Tail-er** hackathon.
+DevPet is a system monitor with a virtual pet called Byte. It tracks what is happening on your computer and turns certain events into changes in Byte's mood, health and XP.
 
-![Dashboard preview](docs/dashboard.png)
+I made it for the **Tracker & Tail-er hackathon**. I wanted to build something that used the `tail` command for a real purpose, rather than just displaying a log file in a terminal.
 
-Byte reacts to real system events: sustained high CPU/RAM, watched processes starting or stopping, changes in watched folders, log errors, and successful test or build commands. It's a local MVP, not a Task Manager replacement.
+## Features
 
-## What's in the MVP
+- **System monitoring:** CPU, memory, disk usage and network upload/download rates, sampled every 2 seconds. The dashboard shows the last 60 CPU and memory readings.
+- **Process tracking:** Watch an application by name or PID and see when it starts or stops, plus its approximate memory usage.
+- **Folder tracking:** Detect added, modified and deleted files in a selected folder.
+- **Log monitoring:** Follow a text log file and pick up new warning and error messages.
+- **Alerts:** Keep track of issues, acknowledge them, and see when CPU, memory or a watched process returns to normal.
+- **Virtual pet:** Byte reacts to events and earns XP from successful tests/builds, file activity and recoveries. Progress is saved locally.
 
-- **System metrics:** CPU, RAM, disk usage, and network upload/download rate. Samples are taken every **2 seconds**. The dashboard keeps **60 samples** (roughly 2 minutes) for CPU and RAM history.
-- **Process tracking:** Watch a process by its name or PID, see if it's running and its approximate RAM use, and log its start/stop events. A process stopping is **not** proof of a crash.
-- **Folder tracking:** Detect new, modified and deleted files by comparing file metadata on each scan. The first scan establishes a baseline.
-- **Live application logs:** Select a text `.log` file. DevPet reads only new lines, tags `ERROR` and `WARNING` messages, and handles incomplete lines and common rotation/truncation cases.
-- **Event-driven pet:** Real log events change Byte's health, stress, mood and XP. Repeated errors from the same log are rate-limited so they can't instantly drain Byte's health.
-- **Alerts:** High CPU/RAM, stopped processes, failed tests/builds and log warnings/errors appear in an alert list. You can acknowledge an alert; CPU/RAM and process alerts are marked recovered when the monitored condition clears.
-- **Local saves:** Pet progress, selected watches, events and alert status are stored in `data/save.json` and restored on restart.
-- **Demo buttons:** Optional simulated events let you show Byte's reactions safely. They're marked `demo`, and award no XP.
+There are also a few optional demo buttons to show how Byte reacts. These are labelled as simulations and don't give XP.
 
 ## How it works
 
 ```text
-CPU/RAM/network readings    Process and folder watchers    App log reader    Test/build CLI
-            \                     |                      |               /
-             +--------------------+----------------------+--------------+
-                                  |
-                           JSON-line events
-                          data/events.log
-                                  |
-                     tail -n 0 -F events.log
-                           (PowerShell fallback)
-                                  |
-                         Event handler
-                         /           \
-                Alerts + history    Byte's mood/XP
-                         \           /
-                      Local browser dashboard
-                        (refreshes every 1s)
+CPU / memory / processes / files / app logs
+                     |
+               Python watchers
+                     |
+          data/events.log (JSONL)
+                     |
+          tail -F / PowerShell
+                     |
+                Event handler
+                  /       \
+             Alerts      Byte
+                  \       /
+              Local dashboard
 ```
 
-The backend emits one JSON object per line. A **real `tail` subprocess** follows the event log where available; the event handler processes new lines to update the pet and alert state. On Windows without GNU `tail`, the fallback is PowerShell's `Get-Content -Tail 0 -Wait`.
+The monitoring code writes each event as a JSON object on a new line in `data/events.log`. A log-following subprocess reads newly added lines, and the event handler updates alerts, recent activity and Byte's state. The browser gets the latest state from the local server every second.
 
-The backend is event-driven. The browser polls the local API once a second; **it does not use WebSockets**. High CPU/RAM alerts use a 90% trigger and a 75% recovery threshold to avoid an alert on every sample.
+For example, if a watched application log gets a new `ERROR` line, DevPet records a `LOG_ERROR` event, shows an alert and makes Byte worried.
 
-## Run on Windows (no Ubuntu required)
+## Design choices
 
-1. Install **Python 3.10+** from [python.org](https://www.python.org/downloads/windows/) and ensure Python is available in PowerShell.
-2. Extract the ZIP and double-click **`START_DEV_PET.bat`**. First launch creates `.venv` and installs `psutil`.
-3. Open <http://127.0.0.1:8765>.
-4. Leave the console window open; press **Ctrl+C** to stop the server.
+I kept the stack small because this was a hackathon project:
 
-Or use PowerShell:
+- **Python + `psutil`:** `psutil` provides the system and process readings without having to write separate Windows-specific commands for every metric.
+- **JSONL + `tail`:** One event per line is easy to inspect and debug. It also separates the code collecting events from the code reacting to them. DevPet uses GNU `tail` when available, or PowerShell's log-following command on Windows.
+- **HTML, CSS and vanilla JavaScript:** A simple interface felt more appropriate than setting up a frontend framework. The backend uses Python's built-in HTTP server, so `psutil` is the only package dependency.
+- **Polling:** System readings are taken every 2 seconds and the browser checks for updates every second. WebSockets would be faster for some uses, but polling was simpler and enough for this MVP.
+- **Alert handling:** CPU and memory alerts start at 90% and recover below 75%, avoiding constant alerts around one threshold. Repeated log warnings/errors are also rate-limited.
+- **Local storage:** Byte's progress, selected watches and alerts are saved to `data/save.json`. I didn't need a database for a single-user local app.
+
+## Running on Windows
+
+Requires **Python 3.10+**. No Ubuntu or WSL is needed.
+
+1. Download or clone the repository.
+2. Double-click `START_DEV_PET.bat`. It creates a virtual environment, installs `psutil` and starts the app.
+3. Open **http://127.0.0.1:8765** in a browser.
+4. Keep the terminal open while using DevPet. Press **Ctrl+C** to stop it.
+
+Or run it manually in PowerShell:
 
 ```powershell
 py -3 -m venv .venv
@@ -57,65 +65,52 @@ py -3 -m venv .venv
 .venv\Scripts\python.exe app.py
 ```
 
-You can also double-click `SHOW_LIVE_LOGS.bat` while DevPet is running. For the **literal GNU `tail`** command on Windows, install [Git for Windows](https://gitforwindows.org/) with its Unix command-line tools and ensure `tail.exe` is accessible. Without it, DevPet can use Windows PowerShell instead.
+`SHOW_LIVE_LOGS.bat` lets you view the event stream separately in a terminal.
 
-## A short demo you can show in an interview
+## Trying it out
 
-**1. Watch a real app.** Open Notepad, add a process watch for `notepad.exe`, then close Notepad. The activity feed should show `APP_STOPPED` and Byte will react. If you open Notepad again, you should see `APP_STARTED`.
+**Applications:** Add `notepad.exe` as a process watch, then open and close Notepad. Start/stop events appear in the activity feed.
 
-**2. Watch an actual log file.** In PowerShell, create a safe test log:
+**Files:** Watch a test folder and add, edit or delete a text file.
 
-```powershell
-Set-Content -Path "$env:USERPROFILE\Desktop\devpet-demo.log" -Value "INFO app started"
-```
-
-In DevPet, choose **Log file** and paste that file's full path. Then run:
+**Logs:** Run the following in PowerShell:
 
 ```powershell
-Add-Content -Path "$env:USERPROFILE\Desktop\devpet-demo.log" -Value "ERROR database connection failed"
+Set-Content "$env:TEMP\devpet-demo.log" "INFO application started"
 ```
 
-The new line is classified as `LOG_ERROR`, added to the alerts list and makes Byte worried. No real database needs to fail.
-
-**3. Watch file changes.** Add a watch for a small test folder, then create or change a text file inside it. Byte earns XP from real activity.
-
-**4. Show the CLI event pipeline.** Run a real test command through the wrapper:
+Add that file's full path as a **Log file** watch, then append an error:
 
 ```powershell
-py -3 devpet_cli.py test -- py -3 -m unittest discover -s tests
+Add-Content "$env:TEMP\devpet-demo.log" "ERROR connection failed"
 ```
 
-If the test command exits successfully, DevPet writes a `TEST_PASSED` event. Use `SHOW_LIVE_LOGS.bat` to show JSONL events arriving as they happen.
+DevPet should pick up the new line and update the alert list and Byte's mood.
 
-## Files
+## Project structure
 
 ```text
-app.py                 Local HTTP server and API
-monitor.py             OS samples, process/folder watches, event and pet logic
-log_reader.py          Incremental text-log reader and severity classification
-devpet_cli.py           Real test/build command wrapper
-static/                 HTML, CSS and vanilla JavaScript
-START_DEV_PET.bat       Windows launcher
-SHOW_LIVE_LOGS.bat      Terminal log follower
-tests/                  Automated tests
-docs/                   Dashboard preview
+app.py              Local server and API
+monitor.py          System metrics, watchers, event handling and pet state
+log_reader.py       Reads and classifies new log lines
+devpet_cli.py       Runs test/build commands and records the result
+static/             Dashboard HTML, CSS and JavaScript
+tests/              Automated tests
+*.bat               Windows launcher and utilities
 ```
 
-## Tests
+## Testing
+
+Double-click `RUN_TESTS.bat` or run:
 
 ```powershell
 py -3 -m unittest discover -s tests -v
 ```
 
-**31 automated tests passed in the development environment**. They cover the event pipeline, API, watch configuration, actual file changes, process stop detection, application-log ingestion, log truncation/rotation, alerts, and saved state. Please run this command on your own Windows machine too; Windows launch and shell integrations have not been verified on every version of Windows.
+The project passed **31 automated tests in the development environment**, covering monitoring, log processing, alerts, saved state and API behaviour. Run the tests locally as well before demonstrating the app.
 
-## Scope and limitations
+## Limitations
 
-- All data is kept locally. The server binds to `127.0.0.1`; it doesn't send data to a cloud service.
-- Watches are **opt-in**. Folder monitoring compares file metadata, not file contents. It doesn't record who changed a file.
-- Text log entries can contain sensitive information. DevPet makes a basic attempt to redact fields such as `password=` and `token=`, but **do not watch logs containing secrets or personal data**.
-- Log polling is bounded to avoid freezing the interface under a sudden flood of log messages. This isn't a full production log-ingestion platform, so some lines can be dropped at high volume.
-- A selected process stopping isn't necessarily a crash; no claim is made about the cause.
-- No cloud accounts, AI, databases, or WebSockets are needed. The project prioritises being understandable and demonstrable in a hackathon setting.
+This is a hackathon MVP, not a replacement for Task Manager or a production monitoring service. Folder changes are detected through periodic metadata checks, so quick changes between scans may be missed. Process termination doesn't necessarily mean a crash, and the log reader uses keyword matching rather than understanding every log format.
 
-**Stack:** Python, `psutil`, Python standard-library HTTP server, JSONL, GNU `tail`/PowerShell log following, HTML, CSS and vanilla JavaScript.
+Everything runs locally on `127.0.0.1`. Avoid monitoring logs with personal information or secrets.
