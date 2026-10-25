@@ -2,7 +2,7 @@
 
 DevPet is a system monitor with a virtual pet called Byte. It tracks what is happening on your computer and turns certain events into changes in Byte's mood, health and XP.
 
-I made it for the **Tracker & Tail-er hackathon**. I wanted to build something that used the `tail` command for a real purpose, rather than just displaying a log file in a terminal.
+I made it for the **Tracker & Tail-er themed hackathon**. I wanted to build something that used the `tail` command for a real purpose, rather than just displaying a log file in a terminal.
 
 ## Tech Stack
 
